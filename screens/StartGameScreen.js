@@ -1,26 +1,49 @@
-import React from "react";
-import { StyleSheet, View, Text, TextInput, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 
 import Card from "../components/Card";
+import Input from "../components/Input";
 import colors from "../theme/colors";
 
 const StartGameScreen = (props) => {
+  const [enteredValue, setEnteredValue] = useState("");
+
+  const enteredValueHandler = (inputValue) => {
+    setEnteredValue(inputValue.replace(/[^0-9]/g, ""));
+  };
+
   return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>Start a new game!</Text>
-      <Card style={styles.inputcontainer}>
-        <Text>Select a number</Text>
-        <TextInput />
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button title="Reset" color={colors.accent} />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.screen}>
+        <Text style={styles.title}>Start a new game!</Text>
+        <Card style={styles.inputcontainer}>
+          <Text>Select a number</Text>
+          <Input
+            blurOnSubmit
+            keyboardType="number-pad"
+            maxLength={2}
+            value={enteredValue}
+            onChangeText={enteredValueHandler}
+            returnKeyType="done"
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button title="Reset" color={colors.accent} />
+            </View>
+            <View style={styles.button}>
+              <Button title="Confirm" color={colors.primary} />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button title="Confirm" color={colors.primary} />
-          </View>
-        </View>
-      </Card>
-    </View>
+        </Card>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
