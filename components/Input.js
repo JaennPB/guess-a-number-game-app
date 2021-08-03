@@ -2,22 +2,24 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 import colors from "../theme/colors";
+import defaultStyles from "../theme/defaultStyles";
 
 const Input = (props) => {
-  return <TextInput {...props} style={styles.input} />;
+  return (
+    <TextInput {...props} style={[styles.input, defaultStyles.lightText]} />
+  );
 };
 
 const styles = StyleSheet.create({
   input: {
     width: 80,
-    height: 80,
-    borderColor: colors.primary,
-    borderWidth: 1,
-    padding: 8,
+    borderBottomColor: colors.primary,
+    paddingBottom: 10,
+    color: colors.primary,
+    borderBottomWidth: 1,
     textAlign: "center",
-    fontSize: 25,
-    marginVertical: 20,
-    borderRadius: 10,
+    fontSize: 35,
+    marginVertical: 30,
   },
 });
 
