@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
@@ -12,8 +11,8 @@ import {
 import Card from "../components/Card";
 import Input from "../components/Input";
 import NumberBox from "../components/NumberBox";
+import MainButton from "../components/MainButton";
 
-import colors from "../theme/colors";
 import defaultStyles from "../theme/defaultStyles";
 
 const StartGameScreen = (props) => {
@@ -56,11 +55,9 @@ const StartGameScreen = (props) => {
           You selected number:
         </Text>
         <NumberBox>{selectedNumber}</NumberBox>
-        <Button
-          title="Start Game"
-          color={colors.accent}
-          onPress={props.startGame.bind(this, selectedNumber)}
-        />
+        <MainButton accent onPress={props.startGame.bind(this, selectedNumber)}>
+          START GAME
+        </MainButton>
       </Card>
     );
   }
@@ -82,19 +79,18 @@ const StartGameScreen = (props) => {
           />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button
-                title="Reset"
-                color={colors.secondary}
-                onPress={resetValueHanlder}
-              />
+              <MainButton primary onPress={resetValueHanlder}>
+                RESET
+              </MainButton>
             </View>
             <View style={styles.button}>
-              <Button
-                title="Confirm"
-                color={colors.primary}
+              <MainButton
+                accent
                 onPress={confirmValueHandler}
                 disabled={isConfirmed}
-              />
+              >
+                CONFIRM
+              </MainButton>
             </View>
           </View>
         </Card>

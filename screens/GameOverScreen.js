@@ -1,5 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+
+import MainButton from "../components/MainButton";
 
 const GameOverScreen = (props) => {
   return (
@@ -7,7 +9,9 @@ const GameOverScreen = (props) => {
       <Text>The computer guessed correctly 💻</Text>
       <Text>The secret number was: {props.guessedNumber}</Text>
       <Text>Number of rounds it took to beat you: {props.rounds}</Text>
-      <Button title="New Game" onPress={props.startNewGame} />
+      <MainButton primary onPress={props.startNewGame}>
+        NEW GAME
+      </MainButton>
     </View>
   );
 };

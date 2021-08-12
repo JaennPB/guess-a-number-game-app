@@ -22,8 +22,8 @@ const App = () => {
     setSelectedNumber(userSelectedNumber);
   };
 
-  const endGameHandler = (rounds) => {
-    setGameOverRounds(rounds);
+  const endGameHandler = (guesses) => {
+    setGameOverRounds(guesses.length);
   };
 
   const newGameHandler = () => {
