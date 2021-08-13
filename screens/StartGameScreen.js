@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,6 +6,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 
 import Card from "../components/Card";
@@ -19,6 +21,20 @@ const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
+  const [buttonWidth, setButtonWidth] = useState(
+    Dimensions.get("window").width / 4
+  );
+
+  useEffect(() => {
+    const setWindowWidth = () => {
+      setButtonWidth(Dimensions.get("window").width / 4);
+    };
+
+    Dimensions.addEventListener("change", setWindowWidth);
+    return () => {
+      Dimensions.removeEventListener("change", setWindowWidth);
+    };
+  });
 
   const enteredValueHandler = (inputValue) => {
     setEnteredValue(inputValue.replace(/[^0-9]/g, ""));
@@ -63,40 +79,42 @@ const StartGameScreen = (props) => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.screen}>
-        <Card style={styles.inputcontainer}>
-          <Text style={[styles.message, defaultStyles.regularText]}>
-            Select a number:
-          </Text>
-          <Input
-            blurOnSubmit
-            keyboardType="number-pad"
-            maxLength={2}
-            value={enteredValue}
-            onChangeText={enteredValueHandler}
-            returnKeyType="done"
-          />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <MainButton primary onPress={resetValueHanlder}>
-                RESET
-              </MainButton>
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.screen}>
+          <Card style={styles.inputcontainer}>
+            <Text style={[styles.message, defaultStyles.regularText]}>
+              Select a number:
+            </Text>
+            <Input
+              blurOnSubmit
+              keyboardType="number-pad"
+              maxLength={2}
+              value={enteredValue}
+              onChangeText={enteredValueHandler}
+              returnKeyType="done"
+            />
+            <View style={styles.buttonContainer}>
+              <View style={{ width: buttonWidth }}>
+                <MainButton primary onPress={resetValueHanlder}>
+                  RESET
+                </MainButton>
+              </View>
+              <View style={{ width: buttonWidth }}>
+                <MainButton
+                  accent
+                  onPress={confirmValueHandler}
+                  disabled={isConfirmed}
+                >
+                  CONFIRM
+                </MainButton>
+              </View>
             </View>
-            <View style={styles.button}>
-              <MainButton
-                accent
-                onPress={confirmValueHandler}
-                disabled={isConfirmed}
-              >
-                CONFIRM
-              </MainButton>
-            </View>
-          </View>
-        </Card>
-        {confirmedValueOutput}
-      </View>
-    </TouchableWithoutFeedback>
+          </Card>
+          {confirmedValueOutput}
+        </View>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 };
 
@@ -118,9 +136,10 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
   },
-  button: {
-    width: "40%",
-  },
+  // button: {
+  //   // width: "40%",
+  //   width: Dimensions.get("window").width / 4,
+  // },
   selectedNumContainer: {
     alignItems: "center",
     marginVertical: 30,

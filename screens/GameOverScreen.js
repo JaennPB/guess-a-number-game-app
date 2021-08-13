@@ -1,18 +1,39 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 import MainButton from "../components/MainButton";
+import Card from "../components/Card";
+import NumberBox from "../components/NumberBox";
+
+import colors from "../theme/colors";
+import defaultStyles from "../theme/defaultStyles";
 
 const GameOverScreen = (props) => {
   return (
-    <View style={styles.screen}>
-      <Text>The computer guessed correctly 💻</Text>
-      <Text>The secret number was: {props.guessedNumber}</Text>
-      <Text>Number of rounds it took to beat you: {props.rounds}</Text>
-      <MainButton primary onPress={props.startNewGame}>
-        NEW GAME
-      </MainButton>
-    </View>
+    <ScrollView>
+      <View style={styles.screen}>
+        <Text style={[styles.text, defaultStyles.regularText]}>
+          Your phone has guessed correctly!
+        </Text>
+        <Feather name="check-square" size={180} color={colors.accent} />
+        <Card style={styles.gameOverCard}>
+          <View style={styles.infoContainer}>
+            <Text style={[styles.text, defaultStyles.regularText]}>
+              The secret number was:
+            </Text>
+            <NumberBox>{props.guessedNumber}</NumberBox>
+          </View>
+          <Text style={[styles.text, defaultStyles.regularText]}>
+            Number of rounds it took to beat you:{" "}
+            <Text style={styles.numberText}>{props.rounds}</Text>
+          </Text>
+        </Card>
+        <MainButton primary onPress={props.startNewGame}>
+          NEW GAME
+        </MainButton>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -21,6 +42,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  gameOverCard: {
+    marginTop: 20,
+    marginBottom: 50,
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  numberText: {
+    color: colors.primary,
+    fontSize: 18,
+  },
+  infoContainer: {
+    alignItems: "center",
   },
 });
 
