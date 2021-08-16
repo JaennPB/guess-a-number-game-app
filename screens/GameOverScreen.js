@@ -14,9 +14,9 @@ const GameOverScreen = (props) => {
     <ScrollView>
       <View style={styles.screen}>
         <Text style={[styles.text, defaultStyles.regularText]}>
-          Your phone has guessed correctly!
+          Your phone has guessed correctly!{" "}
+          <Feather name="check-square" size={24} color={colors.accent} />
         </Text>
-        <Feather name="check-square" size={180} color={colors.accent} />
         <Card style={styles.gameOverCard}>
           <View style={styles.infoContainer}>
             <Text style={[styles.text, defaultStyles.regularText]}>
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 20,
   },
   gameOverCard: {
     marginTop: 20,

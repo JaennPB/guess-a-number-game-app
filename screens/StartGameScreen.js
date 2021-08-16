@@ -8,6 +8,7 @@ import {
   Alert,
   Dimensions,
   ScrollView,
+  useWindowDimensions,
 } from "react-native";
 
 import Card from "../components/Card";
@@ -21,20 +22,13 @@ const StartGameScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
-  const [buttonWidth, setButtonWidth] = useState(
-    Dimensions.get("window").width / 4
-  );
 
-  useEffect(() => {
-    const setWindowWidth = () => {
-      setButtonWidth(Dimensions.get("window").width / 4);
-    };
-
-    Dimensions.addEventListener("change", setWindowWidth);
-    return () => {
-      Dimensions.removeEventListener("change", setWindowWidth);
-    };
-  });
+  if (useWindowDimensions().height < 500) {
+    styles.button = { width: Dimensions.get("screen").width / 4 };
+  }
+  if (useWindowDimensions().height > 500) {
+    styles.button = { width: Dimensions.get("screen").width / 4 };
+  }
 
   const enteredValueHandler = (inputValue) => {
     setEnteredValue(inputValue.replace(/[^0-9]/g, ""));
@@ -95,12 +89,12 @@ const StartGameScreen = (props) => {
               returnKeyType="done"
             />
             <View style={styles.buttonContainer}>
-              <View style={{ width: buttonWidth }}>
+              <View style={styles.button}>
                 <MainButton primary onPress={resetValueHanlder}>
                   RESET
                 </MainButton>
               </View>
-              <View style={{ width: buttonWidth }}>
+              <View style={styles.button}>
                 <MainButton
                   accent
                   onPress={confirmValueHandler}
@@ -136,10 +130,9 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
   },
-  // button: {
-  //   // width: "40%",
-  //   width: Dimensions.get("window").width / 4,
-  // },
+  button: {
+    width: Dimensions.get("window").width / 4,
+  },
   selectedNumContainer: {
     alignItems: "center",
     marginVertical: 30,

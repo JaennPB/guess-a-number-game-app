@@ -4,8 +4,10 @@ import {
   View,
   Text,
   Alert,
-  ScrollView,
   FlatList,
+  Dimensions,
+  useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -85,6 +87,37 @@ const GameScreen = (props) => {
     </View>
   );
 
+  if (useWindowDimensions().height < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text style={[styles.message, defaultStyles.regularText]}>
+          Opponent's guess:
+        </Text>
+        <Card style={styles.landscapeLayoutContainer}>
+          <View style={styles.button}>
+            <MainButton accent onPress={nextGuessHandler.bind(this, "lower")}>
+              <FontAwesome name="angle-down" size={25} />
+            </MainButton>
+          </View>
+          <NumberBox>{currentGuess}</NumberBox>
+          <View style={styles.button}>
+            <MainButton accent onPress={nextGuessHandler.bind(this, "higher")}>
+              <FontAwesome name="angle-up" size={25} />
+            </MainButton>
+          </View>
+        </Card>
+        <View style={styles.listContainer}>
+          <FlatList
+            keyExtractor={(item) => item}
+            data={guesses}
+            renderItem={renderGuessesList.bind(this, guesses.length)}
+            contentContainerStyle={styles.list}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <Text style={[styles.message, defaultStyles.regularText]}>
@@ -104,11 +137,6 @@ const GameScreen = (props) => {
         </View>
       </Card>
       <View style={styles.listContainer}>
-        {/* <ScrollView contentContainerStyle={styles.list}>
-          {guesses.map((guess, index) =>
-            renderGuessesList(guess, guesses.length - index)
-          )}
-        </ScrollView> */}
         <FlatList
           keyExtractor={(item) => item}
           data={guesses}
@@ -133,6 +161,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "70%",
     justifyContent: "space-between",
+  },
+  landscapeLayoutContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: "70%",
+    marginTop: 10,
   },
   button: {
     width: "20%",

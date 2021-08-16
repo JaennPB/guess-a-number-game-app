@@ -1,10 +1,17 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, useWindowDimensions } from "react-native";
 
 import colors from "../theme/colors";
 import defaultStyles from "../theme/defaultStyles";
 
 const Header = (props) => {
+  if (useWindowDimensions().height < 500) {
+    styles.container = { ...styles.container, height: 50, paddingVertical: 15 };
+  }
+  if (useWindowDimensions().height > 500) {
+    styles.container = { ...styles.container, height: 90, paddingVertical: 36 };
+  }
+
   return (
     <View style={styles.container}>
       <Text style={[styles.text, defaultStyles.regularText]}>
@@ -19,8 +26,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: 90,
-    paddingTop: 36,
     backgroundColor: colors.primary,
   },
   text: {
